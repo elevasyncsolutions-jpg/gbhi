@@ -300,8 +300,36 @@ app.post('/api/login', (req,res)=> {
   if (req.body?.password === cfg.appPassword) return res.json({ ok:true, token:signToken() });
   res.status(401).json({ ok:false });
 });
+function publicState() {
+  return {
+    startedAt: state.startedAt,
+    autoRunning: state.autoRunning,
+    panic: state.panic,
+    lastScan: state.lastScan,
+    trades: state.trades.slice(-25),
+    alerts: state.alerts.slice(-50),
+    positions: state.positions,
+    daily: state.daily,
+    loopActive: Boolean(state.loop)
+  };
+}
+
 app.get('/api/status', auth, async (req,res)=> {
-  res.json({ ok:true, cfg:{ dryRun:cfg.dryRun, autoTradingEnv:cfg.autoTrading, autoRunning:state.autoRunning, panic:state.panic, wallet:wallet?.publicKey?.toBase58() || null, maxTradeSol:cfg.maxTradeSol, minScore:cfg.minScore, reserveSol:cfg.reserveSol }, balanceSol: await getBalanceSol().catch(()=>null), state });
+  res.json({
+    ok:true,
+    cfg:{
+      dryRun:cfg.dryRun,
+      autoTradingEnv:cfg.autoTrading,
+      autoRunning:state.autoRunning,
+      panic:state.panic,
+      wallet:wallet?.publicKey?.toBase58() || null,
+      maxTradeSol:cfg.maxTradeSol,
+      minScore:cfg.minScore,
+      reserveSol:cfg.reserveSol
+    },
+    balanceSol: await getBalanceSol().catch(()=>null),
+    state: publicState()
+  });
 });
 app.post('/api/scan', auth, async (req,res)=> { try { res.json({ok:true, scan: await scan()}); } catch(e){ res.status(500).json({ok:false,error:e.message}); } });
 app.post('/api/autopilot/start', auth, async (req,res)=> { state.autoRunning=true; await tg('🟢 Autopilot started'); res.json({ok:true}); });
