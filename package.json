@@ -1,0 +1,20 @@
+{
+  "name": "solana-dream-engine-v3-auto",
+  "version": "3.0.0",
+  "description": "Railway-ready Solana autopilot scanner/executor with Jupiter, Birdeye, Groq, Telegram and hard safety rails.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js",
+    "scan": "node server.js --scan-once"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "bs58": "^6.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-cron": "^3.0.3"
+  }
+}

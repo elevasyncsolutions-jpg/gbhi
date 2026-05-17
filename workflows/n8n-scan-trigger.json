@@ -1,0 +1,10 @@
+{
+  "name": "Solana Dream Engine V3 - Scan Trigger",
+  "nodes": [
+    {"parameters":{"rule":{"interval":[{"field":"minutes","minutesInterval":5}]}},"type":"n8n-nodes-base.scheduleTrigger","typeVersion":1.2,"position":[0,0],"id":"schedule","name":"Every 5 Minutes"},
+    {"parameters":{"method":"POST","url":"https://YOUR-RAILWAY-APP.up.railway.app/api/scan","sendHeaders":true,"headerParameters":{"parameters":[{"name":"Authorization","value":"Bearer PASTE_LOGIN_TOKEN_FROM_BROWSER_LOCALSTORAGE"},{"name":"Content-Type","value":"application/json"}]},"sendBody":true,"bodyParameters":{"parameters":[]},"options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[220,0],"id":"scan","name":"Trigger Scan"}
+  ],
+  "connections": {"Every 5 Minutes":{"main":[[{"node":"Trigger Scan","type":"main","index":0}]]}},
+  "active": false,
+  "settings": {"executionOrder":"v1"}
+}
